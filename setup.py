@@ -6,7 +6,7 @@ with open("requirements/base.txt") as f:
 setup(
     name="bandito",
     version="0.1.0",
-    description="A fairly simply package playing with Stochastic Multiarm Bandits :slot_machine:",
+    description="A fairly simple package playing with Stochastic Multi-Armed Bandits :slot_machine:",
     author="Matej Kerekrety",
     author_email="matej.kerekrety@gmail.com",
     packages=find_packages(exclude=("tests", "notebooks",)),
