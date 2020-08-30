@@ -1,0 +1,7 @@
+.python-version
+.DS_Store
+*__pycache__
+*.ipynb_checkpoints
+.pytest_cache
+*.idea/*
+*config.ini
