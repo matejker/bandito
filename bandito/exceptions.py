@@ -2,5 +2,5 @@ class BanditoException(Exception):
     pass
 
 
-class TimeCanBeNegative(BanditoException):
+class TimeCanNotBeNegative(BanditoException):
     pass

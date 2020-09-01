@@ -3,7 +3,7 @@ A fairly simple package playing with Stochastic Multi-Armed Bandits :slot_machin
 
 
 ## Install
-The package was developed on `Python 3.8.0` and the required packages can be find in requirements folder.
+The package was developed on `Python 3.8.0` and the required packages can be find in [requirements](./requirements) folder.
 In order to install `bandito` from GitHub run:
 
 ```shell

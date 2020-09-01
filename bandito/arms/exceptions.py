@@ -2,5 +2,13 @@ class ArmException(Exception):
     pass
 
 
-class TimeCanBeNegative(ArmException):
+class TimeCanNotBeNegative(ArmException):
+    pass
+
+
+class TimeStepCanNotExceedTmax(ArmException):
+    pass
+
+
+class ObservationNumberDoesNotMatch(ArmException):
     pass

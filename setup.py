@@ -12,5 +12,5 @@ setup(
     packages=find_packages(exclude=("tests", "notebooks",)),
     include_package_data=True,
     zip_safe=True,
-    install_requires=required
+    install_requires=required,
 )

@@ -18,8 +18,7 @@ jobs:
 
     - name: Install dependencies
       working-directory: .
-      run: |
-        make requirements_test
+      run: make requirements_test
     - name: Run linting
       working-directory: .
       run: make lint
