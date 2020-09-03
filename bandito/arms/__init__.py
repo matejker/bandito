@@ -1,1 +1,1 @@
-from .arm import Arm, KnownArm, UnknownArm  # noqa
+from .arm import Arm, UnknownArm  # noqa
