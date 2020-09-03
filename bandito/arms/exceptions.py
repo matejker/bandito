@@ -12,3 +12,16 @@ class TimeStepCanNotExceedTmax(ArmException):
 
 class ObservationNumberDoesNotMatch(ArmException):
     pass
+
+
+# Bernoulli
+class BernoulliException(ArmException):
+    pass
+
+
+class BernoulliProbabilityBeyondBounds(BernoulliException):
+    pass
+
+
+class BernoulliBounds(BernoulliException):
+    pass
