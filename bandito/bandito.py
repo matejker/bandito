@@ -15,4 +15,9 @@ class Bandito:
 
     def __repr__(self) -> str:
         name = self.__class__.__name__
-        return f"{name}(Policy: {self.policy}, Arms: [{self.arms}])"
+        return f"{name}(Policy: {self.policy}, Arms: [{', '.join(self.arms)}])"
+
+    def __call__(self) -> dict:
+        self.policy.arms = self.arms
+        return self.policy()
+

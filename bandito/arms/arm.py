@@ -1,4 +1,5 @@
 import numpy as np
+
 import bandito.types as typ
 import bandito.arms.exceptions as ex
 
@@ -34,7 +35,8 @@ class Arm:
         allowed_atr = {"x", "x_avg", "s"}.intersection(set(self.__dict__.keys()))
         all_atr = self.__dict__
         var_n_val = ", ".join([f"{var}(t)={all_atr[var][self.t]}" for var in allowed_atr])
-        var_n_val = var_n_val + f'mu={all_atr["mu"]}' if "mu" in self.__dict__.keys() else var_n_val
+        var_n_val = var_n_val + f', mu={all_atr["mu"]}' if "mu" in self.__dict__.keys() else var_n_val
+        var_n_val += f", t={self.t}"
         return f"{name}({var_n_val})"
 
     def __str__(self) -> str:
