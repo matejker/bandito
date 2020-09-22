@@ -1,4 +1,4 @@
-# Bandito
+# Bandito :slot_machine:
 A fairly simple package playing with Stochastic Multi-Armed Bandits :slot_machine:
 
 
