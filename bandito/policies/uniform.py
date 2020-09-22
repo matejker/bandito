@@ -20,15 +20,19 @@ class Uniform(Policy):
 
         # Exploration phase
         for i, a in enumerate(self.arms):
+            # fmt: off
             self.a[i * n: i * (n + 1)] = [i] * n
-            self.reward[i * n: i * (n + 1)] = a.x_temp[i * n: i * (n + 1)]  # fmt: no
-            a.x[i * n: i * (n + 1)] = a.x_temp[i * n: i * (n + 1)]  # fmt: no
-            s = np.sum(a.x_temp[i * n: i * (n + 1)])  # fmt: no
+            self.reward[i * n: i * (n + 1)] = a.x_temp[i * n: i * (n + 1)]
+            a.x[i * n: i * (n + 1)] = a.x_temp[i * n: i * (n + 1)]
+            s = np.sum(a.x_temp[i * n: i * (n + 1)])
+            # fmt: on
             a_best = (i, s) if s > a_best[1] else a_best
 
         # Exploitation phase
+        # fmt: off
         self.a[self.t_max - reminder:] = [a_best[0]] * reminder
-        self.reward[self.t_max - reminder:] = self.arms[a_best[0]].x_temp[self.t_max - reminder:]  # fmt: no
-        self.arms[a_best[0]].x[self.t_max - reminder:] = self.arms[a_best[0]].x_temp[self.t_max - reminder:]  # fmt: no
+        self.reward[self.t_max - reminder:] = self.arms[a_best[0]].x_temp[self.t_max - reminder:]
+        self.arms[a_best[0]].x[self.t_max - reminder:] = self.arms[a_best[0]].x_temp[self.t_max - reminder:]
+        # fmt: on
 
         return {"arms": self.a, "reward": self.reward}

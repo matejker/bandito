@@ -20,4 +20,3 @@ class Bandito:
     def __call__(self) -> dict:
         self.policy.arms = self.arms
         return self.policy()
-
