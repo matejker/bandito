@@ -13,4 +13,4 @@ class Bernoulli(Arm):
 
         super().__init__(**kwargs)
         self.mu = p * (b - a) + a
-        self.x_temp = (np.random.uniform(size=self.t_max) > p) * (b - a) + a
+        self.x_temp = (np.random.uniform(size=self.t_max) < p) * (b - a) + a

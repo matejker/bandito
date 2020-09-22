@@ -26,3 +26,6 @@ class Policy:
 
     def __str__(self) -> str:
         return self.__class__.__name__
+
+    def __call__(self):
+        return {"arms": self.a, "reward": self.reward}

@@ -8,3 +8,7 @@ class TimeCanNotBeNegative(PolicyException):
 
 class UniformPolicy(PolicyException):
     pass
+
+
+class EpsilonGreedyPolicy(PolicyException):
+    pass
