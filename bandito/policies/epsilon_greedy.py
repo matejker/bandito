@@ -1,19 +1,20 @@
 import numpy as np
 
-import bandito.policies.exceptions as ex
 from bandito.policies import Policy
+import bandito.entities as en
 import bandito.types as typ
+import bandito.policies.exceptions as ex
 
 
 class EpsilonGreedy(Policy):
-    def __init__(self, epsilon: typ.Optional[typ.Union[np.array, float]] = None, **kwargs) -> None:
-        super().__init__(**kwargs)
+    def __init__(self, t_max: int, epsilon: typ.Optional[typ.Union[np.array, float]] = None) -> None:
+        super().__init__(t_max)
         if epsilon and (epsilon > 1 or epsilon < 0):
             raise ex.EpsilonGreedyPolicy(f"Parameter epsilon={epsilon} cannot be epsilon < 0 or epsilon > 1!")
 
         self.epsilon = epsilon
 
-    def __call__(self) -> dict:
+    def __call__(self) -> en.PolicyPayload:
 
         if isinstance(self.epsilon, float):
             self.epsilon = np.full(self.t_max, self.epsilon)
@@ -38,4 +39,13 @@ class EpsilonGreedy(Policy):
 
             a_best = (i, avg) if avg > a_best[1] else a_best
 
-        return {"arms": self.a, "reward": self.reward}
+        mean_reward = np.array([self.arms[i].mu for i in self.a])
+        t = np.arange(1, self.t_max + 1)
+
+        return en.PolicyPayload(
+            arms=self.a,
+            reward=self.reward,
+            regred=np.cumsum(self.get_best_arm.mu - mean_reward),
+            mean_reward=mean_reward,
+            expected_regred=t ** (2 / 3) * (len(self.arms) * np.log(t)) ** (1 / 3),
+        )

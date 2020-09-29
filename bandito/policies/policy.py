@@ -1,8 +1,9 @@
 import numpy as np
 
+import bandito.entities as en
+import bandito.types as typ
 import bandito.policies.exceptions as ex
 from bandito.arms import Arm
-import bandito.types as typ
 
 
 class Policy:
@@ -28,4 +29,17 @@ class Policy:
         return self.__class__.__name__
 
     def __call__(self):
-        return {"arms": self.a, "reward": self.reward}
+        return en.PolicyPayload(
+            arms=self.a,
+            reward=self.reward,
+            regred=np.zeros(self.t_max),
+            mean_reward=np.zeros(self.t_max),
+            expected_regred=np.zeros(self.t_max),
+        )
+
+    @property
+    def get_best_arm(self):
+        mus = [arm.mu for arm in self.arms]
+        max_index = max(range(len(self.arms)), key=mus.__getitem__)
+
+        return self.arms[max_index]

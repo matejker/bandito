@@ -1,18 +1,20 @@
 import numpy as np
 import math
 
+import bandito.entities as en
+import bandito.types as typ
 import bandito.policies.exceptions as ex
 from bandito.policies import Policy
 
 
 class Uniform(Policy):
-    def __init__(self, q: float = 0.5, **kwargs) -> None:
-        if q > 1 or q < 0:
+    def __init__(self, t_max: int, q: typ.Optimal[float] = None) -> None:
+        if q and q > 1 or q < 0:
             raise ex.UniformPolicy(f"Cut parameter q={q} cannot be q < 0 or q > 1!")
-        self.q = q
-        super().__init__(**kwargs)
+        self.q = q or t_max ** (2 / 3) * (4 * np.log(t_max)) ** (1 / 3) / (t_max * 4)
+        super().__init__(t_max)
 
-    def __call__(self) -> dict:
+    def __call__(self) -> en.PolicyPayload:
         m = len(self.arms)
         n = math.floor(self.q * self.t_max / m)
         reminder = math.ceil(self.t_max - n * m)
@@ -35,4 +37,13 @@ class Uniform(Policy):
         self.arms[a_best[0]].x[self.t_max - reminder:] = self.arms[a_best[0]].x_temp[self.t_max - reminder:]
         # fmt: on
 
-        return {"arms": self.a, "reward": self.reward}
+        mean_reward = np.array([self.arms[i].mu for i in self.a])
+        t = np.arange(1, self.t_max + 1)
+
+        return en.PolicyPayload(
+            arms=self.a,
+            reward=self.reward,
+            regred=np.cumsum(self.get_best_arm.mu - mean_reward),
+            mean_reward=mean_reward,
+            expected_regred=t ** (2 / 3) * (len(self.arms) * np.log(t)) ** (1 / 3),
+        )
