@@ -34,3 +34,12 @@ class UniformException(ArmException):
 
 class UnifromBounds(UniformException):
     pass
+
+
+# Poission
+class PoissonException(ArmException):
+    pass
+
+
+class PoissonLambda(PoissonException):
+    pass
