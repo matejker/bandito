@@ -5,7 +5,7 @@ import bandito.arms.exceptions as ex
 
 
 class Poisson(Arm):
-    def __init__(self, t_max: int, lam: float, **kwargs):
+    def __init__(self, t_max: int, lam: float, **kwargs) -> None:
         if lam <= 0:
             raise ex.PoissonLambda(f"Lambda has to be lambda={lam} => 0]")
 

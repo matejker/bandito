@@ -5,7 +5,7 @@ import bandito.arms.exceptions as ex
 
 
 class Bernoulli(Arm):
-    def __init__(self, t_max: int, p: float = 0.5, a: float = 0, b: float = 1, **kwargs):
+    def __init__(self, t_max: int, p: float = 0.5, a: float = 0, b: float = 1, **kwargs) -> None:
         if p < 0 or 1 < p:
             raise ex.BernoulliProbabilityBeyondBounds(f"Probability p={p} has to be in [0, 1]")
         if b < a:

@@ -5,7 +5,7 @@ import bandito.arms.exceptions as ex
 
 
 class Uniform(Arm):
-    def __init__(self, t_max: int, a: float = 0, b: float = 1, **kwargs):
+    def __init__(self, t_max: int, a: float = 0, b: float = 1, **kwargs) -> None:
         if b < a:
             raise ex.UnifromBounds(f"Bounds have to be a={a} <= b={b}]")
 

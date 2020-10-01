@@ -5,7 +5,7 @@ import bandito.arms.exceptions as ex
 
 
 class Exponential(Arm):
-    def __init__(self, t_max: int, beta: float, **kwargs):
+    def __init__(self, t_max: int, beta: float, **kwargs) -> None:
         if beta < 0:
             raise ex.ExponentialScale(f"Scale parameter beta has to be beta={beta} > 0 (beta = 1 / lambda)]")
 

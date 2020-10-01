@@ -5,7 +5,7 @@ import bandito.arms.exceptions as ex
 
 
 class Geometric(Arm):
-    def __init__(self, t_max: int, p: float, **kwargs):
+    def __init__(self, t_max: int, p: float, **kwargs) -> None:
         if p <= 0 or p > 0:
             raise ex.GeometricProbability(f"Probability p={p} has to be in (0, 1]")
 
