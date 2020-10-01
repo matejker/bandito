@@ -1,13 +1,13 @@
 import numpy as np
+from typing import Optional, Union
 
 from bandito.policies import Policy
 import bandito.entities as en
-import bandito.types as typ
 import bandito.policies.exceptions as ex
 
 
 class EpsilonGreedy(Policy):
-    def __init__(self, t_max: int, epsilon: typ.Optional[typ.Union[np.array, float]] = None) -> None:
+    def __init__(self, t_max: int, epsilon: Optional[Union[np.array, float]] = None) -> None:
         super().__init__(t_max)
         if epsilon and (epsilon > 1 or epsilon < 0):
             raise ex.EpsilonGreedyPolicy(f"Parameter epsilon={epsilon} cannot be epsilon < 0 or epsilon > 1!")

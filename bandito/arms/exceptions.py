@@ -25,3 +25,12 @@ class BernoulliProbabilityBeyondBounds(BernoulliException):
 
 class BernoulliBounds(BernoulliException):
     pass
+
+
+# Uniform
+class UniformException(ArmException):
+    pass
+
+
+class UnifromBounds(UniformException):
+    pass

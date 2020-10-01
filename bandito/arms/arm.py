@@ -1,6 +1,6 @@
 import numpy as np
+from typing import Optional
 
-import bandito.types as typ
 import bandito.arms.exceptions as ex
 
 
@@ -42,7 +42,7 @@ class Arm:
     def __str__(self) -> str:
         return self.__class__.__name__
 
-    def get_x_avg(self, t: typ.Optional[int]) -> np.array:
+    def get_x_avg(self, t: Optional[int]) -> np.array:
         t = t or self.t
         if t < 0:
             raise ex.TimeCanNotBeNegative(f"Time t={t} cannot be negative!")
@@ -52,7 +52,7 @@ class Arm:
         self.x_avg = np.nanmean(self.x[:t])
         return self.x_avg
 
-    def get_s(self, t: typ.Optional[int]) -> np.array:
+    def get_s(self, t: Optional[int]) -> np.array:
         t = t or self.t
         if t < 0:
             raise ex.TimeCanNotBeNegative(f"Time t={t} cannot be negative!")

@@ -1,7 +1,7 @@
 import numpy as np
+from typing import List
 
 import bandito.entities as en
-import bandito.types as typ
 import bandito.policies.exceptions as ex
 from bandito.arms import Arm
 
@@ -15,7 +15,7 @@ class Policy:
         self.t: int = 0
         self.a: np.array = [0] * t_max
         self.reward: np.array = np.zeros(t_max)
-        self.arms: typ.List[Arm] = []
+        self.arms: List[Arm] = []
 
     def __repr__(self) -> str:
         name = self.__class__.__name__
