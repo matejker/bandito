@@ -43,3 +43,12 @@ class PoissonException(ArmException):
 
 class PoissonLambda(PoissonException):
     pass
+
+
+# Exponential
+class ExponentialException(ArmException):
+    pass
+
+
+class ExponentialScale(ExponentialException):
+    pass
