@@ -1,17 +1,18 @@
 import numpy as np
 import math
+from typing import Optional
 
 import bandito.entities as en
-import bandito.types as typ
 import bandito.policies.exceptions as ex
 from bandito.policies import Policy
 
 
 class Uniform(Policy):
-    def __init__(self, t_max: int, q: typ.Optimal[float] = None) -> None:
-        if q and q > 1 or q < 0:
-            raise ex.UniformPolicy(f"Cut parameter q={q} cannot be q < 0 or q > 1!")
+    def __init__(self, t_max: int, q: Optional[float] = None) -> None:
         self.q = q or t_max ** (2 / 3) * (4 * np.log(t_max)) ** (1 / 3) / (t_max * 4)
+
+        if self.q > 1 or self.q < 0:
+            raise ex.UniformPolicy(f"Cut parameter q={q} cannot be q < 0 or q > 1!")
         super().__init__(t_max)
 
     def __call__(self) -> en.PolicyPayload:
