@@ -52,3 +52,12 @@ class ExponentialException(ArmException):
 
 class ExponentialScale(ExponentialException):
     pass
+
+
+# Geometric
+class GeometricException(ArmException):
+    pass
+
+
+class GeometricProbability(GeometricException):
+    pass
