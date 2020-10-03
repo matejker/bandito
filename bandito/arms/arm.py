@@ -27,6 +27,7 @@ class Arm:
         self.x_avg: np.array = np.zeros(t_max)
         self.s: np.array = np.zeros(t_max)
         self.mu: float = 0
+        self.n: int = 0
 
         self.t: int = t
 
@@ -49,7 +50,7 @@ class Arm:
         if self.t_max < t:
             raise ex.TimeStepCanNotExceedTmax(f"Time t={self.t} cannot be t > t_max={self.t_max}!")
 
-        self.x_avg = np.nanmean(self.x[:t])
+        self.x_avg = np.nanmean(self.x[: t + 1])
         return self.x_avg
 
     def get_s(self, t: Optional[int]) -> np.array:
@@ -59,7 +60,7 @@ class Arm:
         if self.t_max < t:
             raise ex.TimeStepCanNotExceedTmax(f"Time t={self.t} cannot be t > t_max={self.t_max}!")
 
-        self.s[:t] = np.nancumsum(self.x[:t])
+        self.s[: t + 1] = np.nancumsum(self.x[: t + 1])
         return self.s
 
 

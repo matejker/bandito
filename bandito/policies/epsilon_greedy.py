@@ -9,10 +9,12 @@ import bandito.policies.exceptions as ex
 class EpsilonGreedy(Policy):
     def __init__(self, t_max: int, epsilon: Optional[Union[np.array, float]] = None) -> None:
         super().__init__(t_max)
-        if epsilon and (epsilon > 1 or epsilon < 0):
+        if isinstance(epsilon, float) and (epsilon > 1 or epsilon < 0):
             raise ex.EpsilonGreedyPolicy(f"Parameter epsilon={epsilon} cannot be epsilon < 0 or epsilon > 1!")
+        if isinstance(epsilon, np.ndarray):
+            raise ex.EpsilonGreedyPolicy(f"Parameter epsilon has be size {t_max} given {len(epsilon)}!")
 
-        self.epsilon = epsilon
+        self.epsilon: Union[np.array, float] = epsilon
 
     def __call__(self) -> en.PolicyPayload:
 
@@ -46,6 +48,7 @@ class EpsilonGreedy(Policy):
             arms=self.a,
             reward=self.reward,
             regred=np.cumsum(self.get_best_arm.mu - mean_reward),
+            realized_regred=np.cumsum(self.get_best_arm.mu - self.reward),
             mean_reward=mean_reward,
             expected_regred=t ** (2 / 3) * (len(self.arms) * np.log(t)) ** (1 / 3),
         )

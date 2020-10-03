@@ -45,6 +45,7 @@ class Uniform(Policy):
             arms=self.a,
             reward=self.reward,
             regred=np.cumsum(self.get_best_arm.mu - mean_reward),
+            realized_regred=np.cumsum(self.get_best_arm.mu - self.reward),
             mean_reward=mean_reward,
             expected_regred=t ** (2 / 3) * (len(self.arms) * np.log(t)) ** (1 / 3),
         )

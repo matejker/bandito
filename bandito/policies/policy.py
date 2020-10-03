@@ -33,6 +33,7 @@ class Policy:
             arms=self.a,
             reward=self.reward,
             regred=np.zeros(self.t_max),
+            realized_regred=np.zeros(self.t_max),
             mean_reward=np.zeros(self.t_max),
             expected_regred=np.zeros(self.t_max),
         )
