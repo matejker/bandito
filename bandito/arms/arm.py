@@ -5,6 +5,24 @@ import bandito.arms.exceptions as ex
 
 
 class Arm:
+    """ Core and base arm class with arm data and parameters. An arm or action is a single event which bandits policy
+    can execute one at each round.
+
+    Attributes:
+        t_max: time horizon / total number of rounds
+        x: reward at time t
+        x_avg: average reward (so far) at time t
+        s: total number of observation (so far) at time t
+        mu: (theoretical) mean
+        n: total number of observation
+        t: time step, t = 1, 2, ..., t_max
+
+    Raises:
+        TimeCanNotBeNegative: if t_max or t is negative
+        TimeStepCanNotExceedTmax: when t is greater than t_max
+        ObservationNumberDoesNotMatch: when x_temp is smaller size than t_max
+    """
+
     def __init__(self, t_max: int, x_temp: np.array = None, t: int = 0) -> None:
         if t_max < 0:
             raise ex.TimeCanNotBeNegative(f"Time t_max={t_max} cannot be negative!")
@@ -13,14 +31,13 @@ class Arm:
         if t_max < t:
             raise ex.TimeStepCanNotExceedTmax(f"Time t={self.t} cannot be t > t_max={self.t_max}!")
 
-        self.x_temp: np.array = x_temp or np.zeros(t_max)
-
-        if self.x_temp.size != t_max:
+        if x_temp.size < t_max:
             raise ex.ObservationNumberDoesNotMatch(
                 f"Input observation X_temp_i(t) does not match with t_max={self.t_max}, "
-                f"given: {self.x_temp.size()}, expected: {t_max})!"
+                f"given: {x_temp.size()}, expected: {t_max})!"
             )
 
+        self.x_temp: np.array = x_temp[:t_max] or np.zeros(t_max)
         self.t_max: int = t_max
 
         self.x: np.array = np.full(t_max, np.nan)
@@ -44,6 +61,14 @@ class Arm:
         return self.__class__.__name__
 
     def get_x_avg(self, t: Optional[int]) -> np.array:
+        """ Counts arm mean so far for each time step t.
+
+        Args:
+            t: time step
+
+        Returns:
+            x_avg: an arm average so far
+        """
         t = t or self.t
         if t < 0:
             raise ex.TimeCanNotBeNegative(f"Time t={t} cannot be negative!")
@@ -54,6 +79,14 @@ class Arm:
         return self.x_avg
 
     def get_s(self, t: Optional[int]) -> np.array:
+        """ Counts number of observation so far for each time step t.
+
+        Args:
+            t: time step
+
+        Returns:
+            s: number of observations so far
+        """
         t = t or self.t
         if t < 0:
             raise ex.TimeCanNotBeNegative(f"Time t={t} cannot be negative!")
@@ -65,6 +98,13 @@ class Arm:
 
 
 class UnknownArm(Arm):
+    """ Unlike for Arms with known probability distribution, sometimes we do not know the arm underlying distribution.
+    For such case we have a generic class which counts mean a arm avg.
+
+    Attributes:
+        mu: average over arm observation
+    """
+
     def __init__(self, **kwargs) -> None:
         super().__int__(**kwargs)  # type: ignore
         self.mu = np.mean(self.x_temp)

@@ -24,6 +24,9 @@ class Bandito:
         arms: List of (stochastic) arms
         t_max: time horizon / total number of rounds
         policy: A policy / algorithm which bandit looks for the most profitable arm
+
+    Raises:
+        TimeCanNotBeNegative: if t_max is negative
     """
 
     def __init__(self, policy: Policy, arms: List[Arm], t_max: int) -> None:
@@ -39,5 +42,17 @@ class Bandito:
         return f"{name}(Policy: {self.policy}, Arms: [{self.arms}])"
 
     def __call__(self) -> PolicyPayload:
+        """ A bandit call which runs the policy and returns reward and regred.
+
+        Returns:
+            PolicyPayload: {
+                arms: list of arms id called at each time step t
+                reward: reward at time t (observation)
+                regred: regred at time t (max mu - arm mu)
+                realized_regred: realized regred at time t (max mu - observation)
+                mean_reward: (arm mu)
+                expected_regred: theoretical bound (given in O notation)
+            }
+        """
         self.policy.arms = self.arms
         return self.policy()
