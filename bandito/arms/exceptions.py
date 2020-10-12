@@ -59,5 +59,5 @@ class GeometricException(ArmException):
     pass
 
 
-class GeometricProbability(GeometricException):
+class GeometricScale(GeometricException):
     pass

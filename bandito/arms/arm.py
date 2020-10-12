@@ -6,13 +6,13 @@ import bandito.arms.exceptions as ex
 
 class Arm:
     """ Core and base arm class with arm data and parameters. An arm or action is a single event which bandits policy
-    can execute one at each round.
+    can play at each round.
 
     Attributes:
         t_max: time horizon / total number of rounds
         x: reward at time t
-        x_avg: average reward (so far) at time t
-        s: total number of observation (so far) at time t
+        x_avg: average reward (so far) at each time step t
+        s: total number of observation (so far) at each time step t
         mu: (theoretical) mean
         n: total number of observation
         t: time step, t = 1, 2, ..., t_max
@@ -31,13 +31,14 @@ class Arm:
         if t_max < t:
             raise ex.TimeStepCanNotExceedTmax(f"Time t={self.t} cannot be t > t_max={self.t_max}!")
 
-        if x_temp.size < t_max:
+        if x_temp and x_temp.size < t_max:
             raise ex.ObservationNumberDoesNotMatch(
                 f"Input observation X_temp_i(t) does not match with t_max={self.t_max}, "
                 f"given: {x_temp.size()}, expected: {t_max})!"
             )
 
-        self.x_temp: np.array = x_temp[:t_max] or np.zeros(t_max)
+        self.x_temp: np.array = x_temp or np.zeros(t_max)
+        self.x_temp  = self.x_temp[:t_max]
         self.t_max: int = t_max
 
         self.x: np.array = np.full(t_max, np.nan)

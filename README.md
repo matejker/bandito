@@ -1,5 +1,5 @@
 # Bandito :slot_machine:
-A package playing with Stochastic Multi-Armed Bandits (MAB) :slot_machine: In last decade bandits became widely used 
+A package playing with Stochastic Multi-Armed Bandits (MAB) :slot_machine: In the last decade bandits became widely used 
 machine learning algorithm.
 
 ## Examples

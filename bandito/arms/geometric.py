@@ -5,10 +5,21 @@ import bandito.arms.exceptions as ex
 
 
 class Geometric(Arm):
-    def __init__(self, t_max: int, p: float, **kwargs) -> None:
-        if p <= 0 or p > 0:
-            raise ex.GeometricProbability(f"Probability p={p} has to be in (0, 1]")
+    """ An arm with Geometric distribution.
+
+    Attributes:
+        t_max: time horizon / total number of rounds
+        beta: 1 / lambda
+        **kwargs: kwargs
+
+    Raises:
+        GeometricScale: if scale parameter beta is smaller that 0
+    """
+
+    def __init__(self, t_max: int, beta: float, **kwargs) -> None:
+        if beta < 0:
+            raise ex.GeometricScale(f"Scale parameter beta has to be beta={beta} > 0 (beta = 1 / lambda)]")
 
         super().__init__(t_max, **kwargs)
-        self.mu = 1 / p
-        self.x_temp = np.random.poisson(p=p, size=self.t_max)
+        self.mu = 1 / beta
+        self.x_temp = np.random.exponential(scale=beta, size=self.t_max)
