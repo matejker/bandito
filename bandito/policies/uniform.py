@@ -8,6 +8,22 @@ from bandito.entities import PolicyPayload
 
 
 class Uniform(Policy):
+    """ The simplest non-adaptive algorithm which consists of exploration and exploitation phases. Firstly play all arms
+    uniformly for n times and for the rest rounds play the most performing arm.
+
+    Attributes:
+        t_max: time horizon / total number of rounds
+        q: portion of rounds among t_max rounds dedicated to exploration phase
+
+    Algorithm:
+        1. Exploration phase: try each arm n times;
+        2. Select the arm i* with the highest average reward (break ties arbitrarily);
+        3. Exploitation phase: play arm i* in all remaining rounds.
+
+    Raises:
+         UniformPolicy: when cut parameter q is not in [0, 1]
+    """
+
     def __init__(self, t_max: int, q: Optional[float] = None) -> None:
         self.q = q or t_max ** (2 / 3) * (4 * np.log(t_max)) ** (1 / 3) / (t_max * 4)
 

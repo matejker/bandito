@@ -6,6 +6,27 @@ from bandito.entities import PolicyPayload
 
 
 class SuccessiveElimination(Policy):
+    """ An adaptive algorithm alternate all active arms until a lower confidence bound of one arm excides upper
+    confidence bounds of others.
+
+    Confidence bounds are defined as follows:
+     - LCB_i(t) := mu_i(t) - r_t(i)
+     - UCB_i(t) := mu_i(t) + r_t(i)
+
+     where mu_i(t) is average of arm i (so far) at time t, and radius at each time step t
+     r_i(t) = sqrt(2 * log(t_max) / n_t(i)))$
+
+    Attributes:
+        t_max: time horizon / total number of rounds
+
+    Algorithm:
+        initiate: all arms are active
+        for each round t = 1, 2,..., t_max:
+            for each active arm:
+                alternate all active arms
+                deactivate all arms such that exists arm i' which UCB_t(i) < LCB_t(i')
+    """
+
     def __init__(self, t_max: int) -> None:
         super().__init__(t_max)
 
@@ -22,7 +43,6 @@ class SuccessiveElimination(Policy):
                 self.arms[i].n += 1
 
                 mu = self.arms[i].get_x_avg(t)
-                # print(max_lcb, i, self.arms[i].n, mu)
                 ucb = mu + np.sqrt(2 * np.log(self.t_max) / self.arms[i].n)
                 lcb = mu - np.sqrt(2 * np.log(self.t_max) / self.arms[i].n)
                 max_lcb = (i, lcb) if max_lcb[0] == i or max_lcb[1] < lcb else max_lcb

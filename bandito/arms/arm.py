@@ -38,7 +38,7 @@ class Arm:
             )
 
         self.x_temp: np.array = x_temp or np.zeros(t_max)
-        self.x_temp  = self.x_temp[:t_max]
+        self.x_temp = self.x_temp[:t_max]
         self.t_max: int = t_max
 
         self.x: np.array = np.full(t_max, np.nan)

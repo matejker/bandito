@@ -7,6 +7,20 @@ from bandito.entities import PolicyPayload
 
 
 class Policy:
+    """ Base policy class, a policy or algorithm tries to pick up most performing arm among all, by picking at each
+    round a single arm based on well defined logic.
+
+    Attributes:
+        t_max: time horizon / total number of rounds
+        t: time step, t = 1, 2, ..., t_max
+        a: played arm at each time step t
+        reward: reward at each time step t
+        arms: list of arms
+
+    Raises:
+        TimeCanNotBeNegative: if t_max is negative
+    """
+
     def __init__(self, t_max: int) -> None:
         if t_max < 0:
             raise ex.TimeCanNotBeNegative(f"Time t_max={t_max} cannot be negative!")
@@ -40,6 +54,11 @@ class Policy:
 
     @property
     def get_best_arm(self):
+        """ Select arm with the best (theoretical) mean.
+
+        Returns:
+            arms: best arm
+        """
         mus = [arm.mu for arm in self.arms]
         max_index = max(range(len(self.arms)), key=mus.__getitem__)
 
