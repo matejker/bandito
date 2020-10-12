@@ -1,9 +1,9 @@
 import numpy as np
 from typing import List
 
-import bandito.entities as en
 import bandito.policies.exceptions as ex
 from bandito.arms import Arm
+from bandito.entities import PolicyPayload
 
 
 class Policy:
@@ -28,8 +28,8 @@ class Policy:
     def __str__(self) -> str:
         return self.__class__.__name__
 
-    def __call__(self):
-        return en.PolicyPayload(
+    def __call__(self) -> PolicyPayload:
+        return PolicyPayload(
             arms=self.a,
             reward=self.reward,
             regred=np.zeros(self.t_max),

@@ -2,7 +2,7 @@ import numpy as np
 from typing import Optional, Union
 
 from bandito.policies import Policy
-import bandito.entities as en
+from bandito.entities import PolicyPayload
 import bandito.policies.exceptions as ex
 
 
@@ -16,7 +16,7 @@ class EpsilonGreedy(Policy):
 
         self.epsilon: Union[np.array, float] = epsilon
 
-    def __call__(self) -> en.PolicyPayload:
+    def __call__(self) -> PolicyPayload:
 
         if isinstance(self.epsilon, float):
             self.epsilon = np.full(self.t_max, self.epsilon)
@@ -44,7 +44,7 @@ class EpsilonGreedy(Policy):
         mean_reward = np.array([self.arms[i].mu for i in self.a])
         t = np.arange(1, self.t_max + 1)
 
-        return en.PolicyPayload(
+        return PolicyPayload(
             arms=self.a,
             reward=self.reward,
             regred=np.cumsum(self.get_best_arm.mu - mean_reward),

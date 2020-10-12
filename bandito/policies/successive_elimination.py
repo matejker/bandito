@@ -2,14 +2,14 @@ import numpy as np
 from copy import deepcopy
 
 from bandito.policies import Policy
-import bandito.entities as en
+from bandito.entities import PolicyPayload
 
 
 class SuccessiveElimination(Policy):
     def __init__(self, t_max: int) -> None:
         super().__init__(t_max)
 
-    def __call__(self) -> en.PolicyPayload:
+    def __call__(self) -> PolicyPayload:
         active_arms = set(range(len(self.arms)))
         max_lcb = (0, 0)
         t = 0
@@ -35,7 +35,7 @@ class SuccessiveElimination(Policy):
         mean_reward = np.array([self.arms[i].mu for i in self.a])
         t = np.arange(1, self.t_max + 1)
 
-        return en.PolicyPayload(
+        return PolicyPayload(
             arms=self.a,
             reward=self.reward,
             regred=np.cumsum(self.get_best_arm.mu - mean_reward),
